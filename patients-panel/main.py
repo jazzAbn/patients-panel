@@ -1,13 +1,8 @@
 import sys
 
-# Lista global para armazenar os dados dos pacientes
-# Inicializamos a lista aqui para que ela esteja disponível em todas as funções
 pacientes = []
 
-# --- FUNÇÕES DO MENU ---
-
 def exibir_menu():
-    """Exibe as opções do menu para o usuário."""
     print("\n" + "="*30)
     print("🏥 Menu Gerenciador de Pacientes")
     print("="*30)
@@ -15,13 +10,11 @@ def exibir_menu():
     print("2. Exibir Todos os Pacientes")
     print("3. Análise de Dados (Média/Min/Max)")
     print("4. Buscar Paciente por Nome")
-    print("5. Sair")
+    print("5. Excluir Paciente")
+    print("6. Sair")
     print("-" * 30)
 
 def adicionar_paciente():
-    """
-    Solicita os dados do paciente e os adiciona à lista global 'pacientes'.
-    """
     print("\n--- Adicionar Paciente ---")
     while True:
         try:
@@ -44,9 +37,6 @@ def adicionar_paciente():
             print("❌ Erro: Por favor, insira um valor numérico válido para a idade.")
 
 def exibir_pacientes():
-    """
-    Exibe a lista completa de pacientes, ordenados por idade.
-    """
     if not pacientes:
         print("\nLista vazia. Cadastre um paciente primeiro (Opção 1).")
         return
@@ -59,9 +49,6 @@ def exibir_pacientes():
         print(f"Nome: {p['nome'].capitalize()} | Idade: {p['idade']} | Tel: {p['telefone']}")
 
 def analise_dados():
-    """
-    Calcula e exibe a média de idade, o paciente mais novo e o mais velho.
-    """
     if not pacientes:
         print("\nNão há dados para análise. Cadastre um paciente primeiro (Opção 1).")
         return
@@ -83,9 +70,6 @@ def analise_dados():
 
 
 def buscar_paciente():
-    """
-    Busca um paciente pelo nome e exibe seus detalhes.
-    """
     if not pacientes:
         print("\nNão há pacientes para buscar. Cadastre um paciente primeiro (Opção 1).")
         return
@@ -103,29 +87,71 @@ def buscar_paciente():
     else:
         print(f"\n❌ Paciente com o nome '{buscar.capitalize()}' não encontrado.")
 
+def excluir_paciente():
+    global pacientes
+    
+    if not pacientes:
+        print("\nLista vazia. Cadastre um paciente primeiro (Opção 1).")
+        return
 
+    print("\n--- Excluir Paciente ---")
+    nome_excluir = input("Digite o nome do paciente que deseja excluir: ").strip().lower()
+    
+    pacientes_antes = len(pacientes)
+    
+    pacientes = [p for p in pacientes if p['nome'] != nome_excluir]
 
+    pacientes_depois = len(pacientes)
+    
+    if pacientes_depois < pacientes_antes:
+        removidos = pacientes_antes - pacientes_depois
+        print(f"✅ {removidos} paciente(s) com o nome '{nome_excluir.capitalize()}' removido(s) com sucesso.")
+    else:
+        print(f"❌ Paciente com o nome '{nome_excluir.capitalize()}' não encontrado.")
 
 def main():
     while True:
         exibir_menu()
+        escolha = input("Escolha uma opção (1-6): ")
         
-        opcao = input("Escolha uma opção: ")
-        
-        if opcao == "1":
+        if escolha == '1':
             adicionar_paciente()
-        elif opcao == "2":
+        elif escolha == '2':
             exibir_pacientes()
-        elif opcao == "3":
+        elif escolha == '3':
             analise_dados()
-        elif opcao == "4":
+        elif escolha == '4':
             buscar_paciente()
-        elif opcao == "5":
-            print("\nObrigado por usar o Gerenciador de Pacientes. Encerrando o sistema...")
-            sys.exit() # Encerra o programa
+        elif escolha == '5':
+            excluir_paciente()
+        elif escolha == '6':
+            ascii_art = """
+░░░░░░░░░▄█████████▄▄▄░░░░░░░
+░░░░░░░░▐███████████████▄▄░░░
+░░░░░░░░███████████████████▄░
+░░░░░░░█████████████████████▌
+░░░░░░▐█▀▀▀▀██▀▒▒▒▒▒▒▒▒▒▀███░
+░░░░░▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█░░
+░░░░░▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌░░
+░░░▄▀▀▀▀▄▒▒▒▒▒▀▀▀▄▄▒▒▒▒▒▒▒▐░░
+░░▐▒▄▀▀▒▒▒▒▒▒▄▄▄▄▄▒▒▒▒▒▀▄▄▐░░
+░░▐▒▒▒▀▒▒▒▒▒▒▒▌▀▒▌▒▒▒▀▄▄▄▒▐░░
+░░░▀▄▒▄▒▒▒▒▒▒▒▒▀▀▒▒▒▌▒▌▀▐▒▌░░
+░░░░▐▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐▒▒▀▒▐░░░
+░░░░▌▒▒▒▒▒▒▒▒▒▒▒▒▀▄▄▒▀▒▒▒▌░░░
+░░░▐▒▒▒▒▒▒▒▒▒▒▄▄▄▄▒▒▒▒▒▒▐░░░░
+░░▄▌▒▒▒▒▒▒▒▒▒▒▒██████▄▒▐░░░░░
+░█▐▒▒▒▒▒▀▒▒▒▒▒▒▒▀▀██▀▒▐░░░░░░
+▀▒▐▒▒▒▒▒▒▀▒▒▒▒▒▒▒▒▒▒▒▐░░▄▄░░░
+░░░▐▒▒▒▒▒▒▒▀▄▒▒▒▒▒▒▒▐░░▐░░▐░░
+░░░░▐▒▒▒▒▒▒▒▒▀▄▄▄▄▄▀░▄▄▐░░▐▄▄
+░░░░░▐▒▒▒▒▒▒▒▒▒▌▌░░░▐░░▐░░▐░▐
+░░░░░▐▒▒▒▒▒▒▒▐▐ ░░░░▐░░░░░░░░▐"""
+            print(ascii_art)
+            print("Obrigado por utilizar o Gerenciador de Pacientes da Clinica Vida Plena. Até logo!)")
+            sys.exit(0)
         else:
-            print("\nOpção inválida. Por favor, escolha uma opção de 1 a 5.")
-
+            print("❌ Opção inválida. Por favor, escolha um número entre 1 e 6.")
 
 if __name__ == "__main__":
     main()
