@@ -1,56 +1,57 @@
-#criando uma lista vazia para armazenar os dados de pacientes uma expecie de array vazio.
-pacientes = []
-#AQUI eu utilizei o WHILE pq eu preciso que seja adcionado mais pacientes ate o usuario  decidir parar de adcionar mais pacietes
- 
-while True:
-    nome = input("Nome do paciente: ") .lower()
-    idade = int(input("Idade do paciente: "))
-    telefone = input("Telefone do paciente: ")
+#lista de variaveis
+lista_paciente = []
+#menu principal
+def menu_principal():
+    print('----------MENU PRINCIPAL----------')
+    print('(1) Cadastrar novo paciente')
+    print('(2) Consultar paciente')
+    print('(3) Editar paciente')
+    print('(4) Excluir paciente')
+    print('(0) Sair')
+menu_principal()
 
-    #.append e utilizado para adicionar novos elementos a lista inicial dentro de um dicionario com as informacoes iniciais do novo paciente
-   
-    pacientes.append({'nome': nome, 'idade': idade, 'telefone': telefone})
-    
-    continuar = input("Deseja adicionar outro paciente? (s/n): ").lower()
-    if continuar.lower() != 's':
-        break
-
-#aqui estou criando um relatorio simples de todos os pacientes cadastrados 
-print(f"Total de pacientes cadastrados: {len(pacientes)}")
-
-#Calcular a média de idades de todos os pacientes
-soma_idades = 0
-for paciente in pacientes:
-    soma_idades += paciente['idade']
-
-media_idade = soma_idades / len(pacientes)
-print(f"Média das idades: {media_idade:.2f} anos")
-
-
-#selecionar o paciente mais novo e o mais velho dentro da lista de cadastro de pacientes 
-#aqui o lambda estou comparando apenas o valor idade dentro do dicionario
-mais_novo = min(pacientes, key=lambda x: x['idade'])
-mais_velho = max(pacientes, key=lambda x: x['idade'])
-
-#em cada printe estou formatando a str para inserir o nome e a idade do paciente mais novo e o mais velho da lista de pacientes cadastrados manualmente 
-print(f"Paciente mais novo: {mais_novo['nome']} ({mais_novo['idade']} anos)")
-print(f"Paciente mais velho: {mais_velho['nome']} ({mais_velho['idade']} anos)")
-
-#nesta parte eu crio uma ordedem crescente de idade dos pacientes cadastrados 
-#sorted e utilizado para ordenar a lista de pacientes com base na idade do paciente mais novo para o mais velho 
-
-ordenados = sorted(pacientes, key=lambda x: x['idade'])
-print("\nPacientes ordenados por idade:")
-for p in ordenados:
-    print(f"{p['nome']} - {p['idade']} anos")
-
-#Aqui eu crio uma busca simples por nome do paciente dentro da lista com um input para a digitação do nome 
-buscar = input("\nDigite o nome do paciente que deseja localizar: ").lower()
-encontrado = [p for p in pacientes if p['nome'].lower() == buscar]
-
-#aqui eu crio uma condição de if para a busca do paciente e um for para printar os dados do paciente caso ele tenha sido encontrado no array de pacientes 
-if encontrado:
-    for p in encontrado:
-        print(f"\nPaciente encontrado:\nNome: {p['nome']}\nIdade: {p['idade']}\nTelefone: {p['telefone']}")
+#caso escolham uma opção diferente do menu
+first_choise = int(input('Escolha a função desejada: '))
+while first_choise < 0 or first_choise > 5:
+    print('Opção inválida. Por favor, selecione uma das opções do menu.')
+    first_choise = int(input('Escolha a função desejada: '))
 else:
-    print("Paciente não encontrado.")
+#fechar programa
+    if first_choise == 0:
+        print("Programa desenvolvido por @JazzAbn  Certificado de Garantia ISO NOVE MIL nenhum e ISO nem me viu depois.")
+        import time, sys
+        for i in range(0, 10):
+            sys.stdout.write("\r{}".format(i))
+            sys.stdout.flush()
+            time.sleep(1)
+        exit()
+#cadastrar novo paciente 
+    elif first_choise == 1:
+        print('Cadastrar novo paciente.')
+        ident = input('ID: ')
+        nome = input('Nome: ')
+        telefone = input('Telefone: ')
+        endereco = input('Endereço: ')
+        print('{}, {}, {}'.format(nome, telefone, endereco))
+        lista_paciente.append((ident, nome, telefone, endereco))
+        cadastrar_de_novo = input('Deseja cadastrar novo paciente? [s/n]: ')
+        while cadastrar_de_novo == 's':
+            print('Cadastrar novo paciente.')
+            ident = input('ID: ')
+            nome = input('Nome: ')
+            telefone = input('Telefone: ')
+            endereco = input('Endereço: ')
+            print('{}, {}, {}'.format(nome, telefone, endereco))
+            lista_paciente.append((ident, nome, telefone, endereco))
+            cadastrar_de_novo = input('Deseja cadastrar novo paciente? [s/n]: ')
+        else:
+            first_choise = menu_principal()
+#consultar paciente
+    elif first_choise == 2:
+        print(lista_paciente)
+
+    elif first_choise == 3:
+        print('Consultar paciente.')
+
+    elif first_choise == 4:
+        print('Consultar paciente.')
